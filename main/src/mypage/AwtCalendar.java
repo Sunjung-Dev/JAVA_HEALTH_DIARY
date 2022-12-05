@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.util.*;
 import java.awt.event.*;
+
 public class AwtCalendar extends Frame implements ItemListener {
  private Choice chyear = new Choice();//년도 선택
  private Choice chmonth = new Choice();//월 선택
@@ -98,8 +99,8 @@ public class AwtCalendar extends Frame implements ItemListener {
   month = Integer.parseInt(chmonth.getSelectedItem());
   
   gc = new GregorianCalendar(year,month-1,1);
-  int max = gc.getActualMaximum(gc.DAY_OF_MONTH);
-  int week = gc.get(gc.DAY_OF_WEEK);
+  int max = gc.getActualMaximum(Calendar.DAY_OF_MONTH);
+  int week = gc.get(Calendar.DAY_OF_WEEK);
   
   String today = Integer.toString(ca.get(Calendar.DATE));
   

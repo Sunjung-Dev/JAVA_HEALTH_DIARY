@@ -12,7 +12,6 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 
 public class CalendarMain extends JFrame implements ActionListener{
 	//------------외형구현---------------
