@@ -6,6 +6,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import javax.swing.*;
 import java.awt.event.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Mypage extends JFrame {
 
@@ -13,9 +15,7 @@ public class Mypage extends JFrame {
 	JButton loginBtn = new JButton("로그인");
 	JButton postBtn = new JButton("게시판");
 	JButton mypageBtn = new JButton("마이페이지");
-	JRadioButton cal = new JRadioButton("날짜형");
-	JRadioButton list = new JRadioButton("목록형");
-	JButton mypostBtn = new JButton("나의 작성글 확인");
+	JRadioButton[] Rbtn = new JRadioButton[2];
 	JButton newpostBtn = new JButton("식단&운동 일지 작성");
 
 	public Mypage() {
@@ -30,72 +30,48 @@ public class Mypage extends JFrame {
 		Container c = getContentPane();
 		setSize(500, 700);
 
-
+		Rbtn[0] = new JRadioButton("날짜형");
+		Rbtn[1] = new JRadioButton("목록형");
 		MyItemListener lShow = new MyItemListener();
-		list.addItemListener(lShow);
+		Rbtn[1].addItemListener(lShow);
 
 
-		show.add(cal);
-		show.add(list);
+		show.add(Rbtn[0]);
+		show.add(Rbtn[1]);
 
 		//c.add(new Banner(), BorderLayout.NORTH);
 		//c.add(new MyPanel(),BorderLayout.SOUTH);
 		north.add(loginBtn);
 		north.add(postBtn);
 		north.add(mypageBtn);
-		center.add(cal);
-		center.add(list);
-		south.add(mypostBtn);
+		center.add(Rbtn[0]);
+		center.add(Rbtn[1]);
 		south.add(newpostBtn);
 		c.add(north, BorderLayout.NORTH);
 		c.add(center, BorderLayout.CENTER);
 		c.add(south, BorderLayout.SOUTH);
 		setVisible(true);
 
-	}
-
-	class Banner extends Panel {
-		JButton loginBtn = new JButton("로그인");
-		JButton postBtn = new JButton("게시판");
-		JButton mypageBtn = new JButton("마이페이지");
-
-		public Banner() {
-			setBackground(Color.LIGHT_GRAY);
-			add(loginBtn);
-			add(postBtn);
-			add(mypageBtn);
-		}
-	}
-
-	class MyPanel extends Panel{
-		JButton mypostBtn = new JButton("나의 작성글 확인");
-		JButton newpostBtn = new JButton("식단&운동 일지 작성");
-		
-		public MyPanel() {
-			add(mypostBtn);
-			add(newpostBtn);
-			
-			mypostBtn.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
+	
+		Rbtn[0].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(Rbtn[0].isSelected())
 					new MemoCalendar();
-				}		
-			});
-			
-			
-			newpostBtn.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					new MemoCalendar();
-				}
-			});
-			
-		}
+			}
+		});
+		newpostBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new MemoCalendar();
+			}
+		});
+	
 		
 	}
 	
 	class MyItemListener implements ItemListener{
 
 		public void itemStateChanged(ItemEvent e) {
-			if(list.isSelected()){
+			if(Rbtn[1].isSelected()){
 				//select * from dept01 where (공개여부)=true;
 				
 			}	
@@ -177,7 +153,7 @@ public class Mypage extends JFrame {
 		}
 	}
 
-	public class MemoCalendar extends CalendarDataManager { // CalendarDataManager�� GUI + �޸��� + �ð�
+	class MemoCalendar extends CalendarDataManager { // CalendarDataManager�� GUI + �޸��� + �ð�
 		// â ������ҿ� ��ġ��
 		JFrame mainFrame;
 		ImageIcon icon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
@@ -227,7 +203,7 @@ public class Mypage extends JFrame {
 		public MemoCalendar() { // ������� ������ ���ĵǾ� ����. �� �ǳ� ���̿� ���ٷ� ����
 
 			mainFrame = new JFrame(title);
-			mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			mainFrame.setSize(700, 400);
 			mainFrame.setLocationRelativeTo(null);
 			mainFrame.setResizable(false);
