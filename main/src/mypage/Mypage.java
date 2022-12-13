@@ -1,21 +1,56 @@
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.*;
+import java.net.http.WebSocket.Listener;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import javax.swing.*;
+import java.awt.event.*;
 
 public class Mypage extends JFrame {
+
+	ButtonGroup show = new ButtonGroup();
+	JButton loginBtn = new JButton("로그인");
+	JButton postBtn = new JButton("게시판");
+	JButton mypageBtn = new JButton("마이페이지");
+	JRadioButton cal = new JRadioButton("날짜형");
+	JRadioButton list = new JRadioButton("목록형");
+	JButton mypostBtn = new JButton("나의 작성글 확인");
+	JButton newpostBtn = new JButton("식단&운동 일지 작성");
+
 	public Mypage() {
+
+		JPanel north = new JPanel();
+		JPanel center = new JPanel();
+		JPanel south = new JPanel();
+		north.setBackground(Color.GRAY);
+
 		setTitle("Mypage");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Container c = getContentPane();
 		setSize(500, 700);
-		c.add(new Banner(), BorderLayout.NORTH);
+
+
+		MyItemListener lShow = new MyItemListener();
+		list.addItemListener(lShow);
+
+
+		show.add(cal);
+		show.add(list);
+
+		//c.add(new Banner(), BorderLayout.NORTH);
+		//c.add(new MyPanel(),BorderLayout.SOUTH);
+		north.add(loginBtn);
+		north.add(postBtn);
+		north.add(mypageBtn);
+		center.add(cal);
+		center.add(list);
+		south.add(mypostBtn);
+		south.add(newpostBtn);
+		c.add(north, BorderLayout.NORTH);
+		c.add(center, BorderLayout.CENTER);
+		c.add(south, BorderLayout.SOUTH);
 		setVisible(true);
-		new MemoCalendar();
 
 	}
 
@@ -30,6 +65,43 @@ public class Mypage extends JFrame {
 			add(postBtn);
 			add(mypageBtn);
 		}
+	}
+
+	class MyPanel extends Panel{
+		JButton mypostBtn = new JButton("나의 작성글 확인");
+		JButton newpostBtn = new JButton("식단&운동 일지 작성");
+		
+		public MyPanel() {
+			add(mypostBtn);
+			add(newpostBtn);
+			
+			mypostBtn.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					new MemoCalendar();
+				}		
+			});
+			
+			
+			newpostBtn.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					new MemoCalendar();
+				}
+			});
+			
+		}
+		
+	}
+	
+	class MyItemListener implements ItemListener{
+
+		public void itemStateChanged(ItemEvent e) {
+			if(list.isSelected()){
+				//select * from dept01 where (공개여부)=true;
+				
+			}	
+			
+		}
+
 	}
 
 	class CalendarDataManager { // 6*7�迭�� ��Ÿ�� �޷� ���� ���ϴ� class
@@ -136,6 +208,8 @@ public class Mypage extends JFrame {
 		JButton saveBut;
 		JButton delBut;
 		JButton clearBut;
+		ButtonGroup upload = new ButtonGroup();
+
 
 		JPanel frameBottomPanel;
 		JLabel bottomInfo = new JLabel("Welcome to Memo Calendar!");

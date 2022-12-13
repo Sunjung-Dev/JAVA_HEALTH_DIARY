@@ -9,7 +9,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import javax.swing.*;
 
-class CalendarDataManager{ // 6*7¹è¿­¿¡ ³ªÅ¸³¾ ´Þ·Â °ªÀ» ±¸ÇÏ´Â class
+class CalendarDataManager{ // 6*7ï¿½è¿­ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Þ·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ class
 	static final int CAL_WIDTH = 7;
 	final static int CAL_HEIGHT = 6;
 	int calDates[][] = new int[CAL_HEIGHT][CAL_WIDTH];
@@ -31,17 +31,17 @@ class CalendarDataManager{ // 6*7¹è¿­¿¡ ³ªÅ¸³¾ ´Þ·Â °ªÀ» ±¸ÇÏ´Â class
 		makeCalData(today);
 	}
 	private void makeCalData(Calendar cal){
-		// 1ÀÏÀÇ À§Ä¡¿Í ¸¶Áö¸· ³¯Â¥¸¦ ±¸ÇÔ 
+		// 1ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 		int calStartingPos = (cal.get(Calendar.DAY_OF_WEEK)+7-(cal.get(Calendar.DAY_OF_MONTH))%7)%7;
 		if(calMonth == 1) calLastDate = calLastDateOfMonth[calMonth] + leapCheck(calYear);
 		else calLastDate = calLastDateOfMonth[calMonth];
-		// ´Þ·Â ¹è¿­ ÃÊ±âÈ­
+		// ï¿½Þ·ï¿½ ï¿½è¿­ ï¿½Ê±ï¿½È­
 		for(int i = 0 ; i<CAL_HEIGHT ; i++){
 			for(int j = 0 ; j<CAL_WIDTH ; j++){
 				calDates[i][j] = 0;
 			}
 		}
-		// ´Þ·Â ¹è¿­¿¡ °ª Ã¤¿ö³Ö±â
+		// ï¿½Þ·ï¿½ ï¿½è¿­ï¿½ï¿½ ï¿½ï¿½ Ã¤ï¿½ï¿½ï¿½Ö±ï¿½
 		for(int i = 0, num = 1, k = 0 ; i<CAL_HEIGHT ; i++){
 			if(i == 0) k = calStartingPos;
 			else k = 0;
@@ -50,11 +50,11 @@ class CalendarDataManager{ // 6*7¹è¿­¿¡ ³ªÅ¸³¾ ´Þ·Â °ªÀ» ±¸ÇÏ´Â class
 			}
 		}
 	}
-	private int leapCheck(int year){ // À±³âÀÎÁö È®ÀÎÇÏ´Â ÇÔ¼ö
+	private int leapCheck(int year){ // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½
 		if(year%4 == 0 && year%100 != 0 || year%400 == 0) return 1;
 		else return 0;
 	}
-	public void moveMonth(int mon){ // ÇöÀç´Þ·Î ºÎÅÍ n´Þ ÀüÈÄ¸¦ ¹Þ¾Æ ´Þ·Â ¹è¿­À» ¸¸µå´Â ÇÔ¼ö(1³âÀº +12, -12´Þ·Î ÀÌµ¿ °¡´É)
+	public void moveMonth(int mon){ // ï¿½ï¿½ï¿½ï¿½Þ·ï¿½ ï¿½ï¿½ï¿½ï¿½ nï¿½ï¿½ ï¿½ï¿½ï¿½Ä¸ï¿½ ï¿½Þ¾ï¿½ ï¿½Þ·ï¿½ ï¿½è¿­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½(1ï¿½ï¿½ï¿½ï¿½ +12, -12ï¿½Þ·ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½)
 		calMonth += mon;
 		if(calMonth>11) while(calMonth>11){
 			calYear++;
@@ -68,8 +68,8 @@ class CalendarDataManager{ // 6*7¹è¿­¿¡ ³ªÅ¸³¾ ´Þ·Â °ªÀ» ±¸ÇÏ´Â class
 	}
 }
 
-public class MemoCalendar extends CalendarDataManager{ // CalendarDataManagerÀÇ GUI + ¸Þ¸ð±â´É + ½Ã°è
-	// Ã¢ ±¸¼º¿ä¼Ò¿Í ¹èÄ¡µµ
+public class MemoCalendar extends CalendarDataManager{ // CalendarDataManagerï¿½ï¿½ GUI + ï¿½Þ¸ï¿½ï¿½ï¿½ + ï¿½Ã°ï¿½
+	// Ã¢ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò¿ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½
 	JFrame mainFrame;
 		ImageIcon icon = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
 	
@@ -102,25 +102,25 @@ public class MemoCalendar extends CalendarDataManager{ // CalendarDataManagerÀÇ 
 	
 	JPanel frameBottomPanel;
 		JLabel bottomInfo = new JLabel("Welcome to Memo Calendar!");
-	//»ó¼ö, ¸Þ¼¼Áö
+	//ï¿½ï¿½ï¿½, ï¿½Þ¼ï¿½ï¿½ï¿½
 	final String WEEK_DAY_NAME[] = { "SUN", "MON", "TUE", "WED", "THR", "FRI", "SAT" };
-	final String title = "¸Þ¸ð ´Þ·Â ver 1.0";
-	final String SaveButMsg1 = "¸¦ MemoDataÆú´õ¿¡ ÀúÀåÇÏ¿´½À´Ï´Ù.";
-	final String SaveButMsg2 = "¸Þ¸ð¸¦ ¸ÕÀú ÀÛ¼ºÇØ ÁÖ¼¼¿ä.";
-	final String SaveButMsg3 = "<html><font color=red>ERROR : ÆÄÀÏ ¾²±â ½ÇÆÐ</html>";
-	final String DelButMsg1 = "¸Þ¸ð¸¦ »èÁ¦ÇÏ¿´½À´Ï´Ù.";
-	final String DelButMsg2 = "ÀÛ¼ºµÇÁö ¾Ê¾Ò°Å³ª ÀÌ¹Ì »èÁ¦µÈ memoÀÔ´Ï´Ù.";
-	final String DelButMsg3 = "<html><font color=red>ERROR : ÆÄÀÏ »èÁ¦ ½ÇÆÐ</html>";
-	final String ClrButMsg1 = "ÀÔ·ÂµÈ ¸Þ¸ð¸¦ ºñ¿ü½À´Ï´Ù.";
+	final String title = "ï¿½Þ¸ï¿½ ï¿½Þ·ï¿½ ver 1.0";
+	final String SaveButMsg1 = "ï¿½ï¿½ MemoDataï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.";
+	final String SaveButMsg2 = "ï¿½Þ¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Û¼ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½.";
+	final String SaveButMsg3 = "<html><font color=red>ERROR : ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½</html>";
+	final String DelButMsg1 = "ï¿½Þ¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.";
+	final String DelButMsg2 = "ï¿½Û¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò°Å³ï¿½ ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ memoï¿½Ô´Ï´ï¿½.";
+	final String DelButMsg3 = "<html><font color=red>ERROR : ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½</html>";
+	final String ClrButMsg1 = "ï¿½Ô·Âµï¿½ ï¿½Þ¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.";
 
 	public static void main(String[] args){
 		SwingUtilities.invokeLater(new Runnable(){
 			public void run(){
-				new MemoCalendar();
+				new MemoCalendarBtn();
 			}
 		});
 	}
-	public MemoCalendar(){ //±¸¼º¿ä¼Ò ¼øÀ¸·Î Á¤·ÄµÇ¾î ÀÖÀ½. °¢ ÆÇ³Ú »çÀÌ¿¡ ºóÁÙ·Î ±¸º°
+	public MemoCalendar(){ //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÄµÇ¾ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ ï¿½Ç³ï¿½ ï¿½ï¿½ï¿½Ì¿ï¿½ ï¿½ï¿½ï¿½Ù·ï¿½ ï¿½ï¿½ï¿½ï¿½
 		
 		mainFrame = new JFrame(title);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -129,7 +129,7 @@ public class MemoCalendar extends CalendarDataManager{ // CalendarDataManagerÀÇ 
 		mainFrame.setResizable(false);
 		mainFrame.setIconImage(icon.getImage());
 		try{
-			UIManager.setLookAndFeel ("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");//LookAndFeel Windows ½ºÅ¸ÀÏ Àû¿ë
+			UIManager.setLookAndFeel ("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");//LookAndFeel Windows ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			SwingUtilities.updateComponentTreeUI(mainFrame) ;
 		}catch(Exception e){
 			bottomInfo.setText("ERROR : LookAndFeel setting failed");
@@ -218,7 +218,7 @@ public class MemoCalendar extends CalendarDataManager{ // CalendarDataManagerÀÇ 
 			}
 			calPanel.setLayout(new GridLayout(0,7,2,2));
 			calPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
-			showCal(); // ´Þ·ÂÀ» Ç¥½Ã
+			showCal(); // ï¿½Þ·ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½
 						
 		infoPanel = new JPanel();
 			infoPanel.setLayout(new BorderLayout());
@@ -289,7 +289,7 @@ public class MemoCalendar extends CalendarDataManager{ // CalendarDataManagerÀÇ 
 			memoPanel.add(memoAreaSP,BorderLayout.CENTER);
 			memoPanel.add(memoSubPanel,BorderLayout.SOUTH);
 
-		//calOpPanel, calPanelÀ»  frameSubPanelWest¿¡ ¹èÄ¡
+		//calOpPanel, calPanelï¿½ï¿½  frameSubPanelWestï¿½ï¿½ ï¿½ï¿½Ä¡
 		JPanel frameSubPanelWest = new JPanel();
 		Dimension calOpPanelSize = calOpPanel.getPreferredSize();
 		calOpPanelSize.height = 90;
@@ -298,7 +298,7 @@ public class MemoCalendar extends CalendarDataManager{ // CalendarDataManagerÀÇ 
 		frameSubPanelWest.add(calOpPanel,BorderLayout.NORTH);
 		frameSubPanelWest.add(calPanel,BorderLayout.CENTER);
 
-		//infoPanel, memoPanelÀ»  frameSubPanelEast¿¡ ¹èÄ¡
+		//infoPanel, memoPanelï¿½ï¿½  frameSubPanelEastï¿½ï¿½ ï¿½ï¿½Ä¡
 		JPanel frameSubPanelEast = new JPanel();
 		Dimension infoPanelSize=infoPanel.getPreferredSize();
 		infoPanelSize.height = 65;
@@ -311,20 +311,20 @@ public class MemoCalendar extends CalendarDataManager{ // CalendarDataManagerÀÇ 
 		frameSubPanelWestSize.width = 410;
 		frameSubPanelWest.setPreferredSize(frameSubPanelWestSize);
 		
-		//µÚ´Ê°Ô Ãß°¡µÈ bottom Panel..
+		//ï¿½Ú´Ê°ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ bottom Panel..
 		frameBottomPanel = new JPanel();
 		frameBottomPanel.add(bottomInfo);
 		
-		//frame¿¡ ÀüºÎ ¹èÄ¡
+		//frameï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
 		mainFrame.setLayout(new BorderLayout());
 		mainFrame.add(frameSubPanelWest, BorderLayout.WEST);
 		mainFrame.add(frameSubPanelEast, BorderLayout.CENTER);
 		mainFrame.add(frameBottomPanel, BorderLayout.SOUTH);
 		mainFrame.setVisible(true);
 
-		focusToday(); //ÇöÀç ³¯Â¥¿¡ focus¸¦ ÁÜ (mainFrame.setVisible(true) ÀÌÈÄ¿¡ ¹èÄ¡ÇØ¾ßÇÔ)
+		focusToday(); //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ï¿½ï¿½ focusï¿½ï¿½ ï¿½ï¿½ (mainFrame.setVisible(true) ï¿½ï¿½ï¿½Ä¿ï¿½ ï¿½ï¿½Ä¡ï¿½Ø¾ï¿½ï¿½ï¿½)
 		
-		//Thread ÀÛµ¿(½Ã°è, bottomMsg ÀÏÁ¤½Ã°£ÈÄ »èÁ¦)
+		//Thread ï¿½Ûµï¿½(ï¿½Ã°ï¿½, bottomMsg ï¿½ï¿½ï¿½ï¿½ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
 		ThreadConrol threadCnl = new ThreadConrol();
 		threadCnl.start();	
 	}
@@ -408,7 +408,7 @@ public class MemoCalendar extends CalendarDataManager{ // CalendarDataManagerÀÇ 
 				}
 			}
 	
-			if(!(k ==0 && l == 0)) calDayOfMon = calDates[k][l]; //today¹öÆ°À» ´­·¶À»¶§µµ ÀÌ actionPerformedÇÔ¼ö°¡ ½ÇÇàµÇ±â ¶§¹®¿¡ ³ÖÀº ºÎºÐ
+			if(!(k ==0 && l == 0)) calDayOfMon = calDates[k][l]; //todayï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ actionPerformedï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½
 
 			cal = new GregorianCalendar(calYear,calMonth,calDayOfMon);
 			
