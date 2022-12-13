@@ -27,6 +27,7 @@ public class Mypage extends JFrame {
 	JPanel frameBottomPanel = new JPanel();
 
 	Boolean choice;
+	Boolean type;
 
 	public Mypage() {
 
@@ -333,20 +334,24 @@ public class Mypage extends JFrame {
 			selectedDate = new JLabel("<Html><font size=3>" + (today.get(Calendar.MONTH) + 1) + "/"
 					+ today.get(Calendar.DAY_OF_MONTH) + "/" + today.get(Calendar.YEAR) + "&nbsp;(Today)</html>",
 					SwingConstants.LEFT);
+
+			String date = new String((today.get(Calendar.MONTH) + 1) + "/"
+			+ today.get(Calendar.DAY_OF_MONTH) + "/" + today.get(Calendar.YEAR));
+			System.out.println(date);
+
 			selectedDate.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
 
-			ButtonGroup Rmemo = new ButtonGroup();
+
+			ButtonGroup Mpublic = new ButtonGroup();
 			JRadioButton[] Mbtn = new JRadioButton[2];
 			Mbtn[0] = new JRadioButton("Public");
 			Mbtn[1] = new JRadioButton("Private");
-			Rmemo.add(Mbtn[0]);
-			Rmemo.add(Mbtn[1]);
+			Mpublic.add(Mbtn[0]);
+			Mpublic.add(Mbtn[1]);
 			Mbtn[0].addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (Mbtn[0].isSelected()){
 						choice = true;
-						System.out.println(choice);
-
 					}
 				}
 			});
@@ -354,7 +359,28 @@ public class Mypage extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					if (Mbtn[1].isSelected()){
 						choice = false;
-						System.out.println(choice);
+					}
+	
+				}
+			});
+
+			ButtonGroup Mtype = new ButtonGroup();
+			JRadioButton[] Tbtn = new JRadioButton[2];
+			Tbtn[0] = new JRadioButton("Weight");
+			Tbtn[1] = new JRadioButton("Diet");
+			Mtype.add(Tbtn[0]);
+			Mtype.add(Tbtn[1]);
+			Tbtn[0].addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if (Tbtn[0].isSelected()){
+						type = true;
+					}
+				}
+			});
+			Tbtn[1].addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if (Tbtn[1].isSelected()){
+						type = false;
 					}
 	
 				}
@@ -381,6 +407,8 @@ public class Mypage extends JFrame {
 							f.mkdir();
 
 						String memo = memoArea.getText();
+						//************************************************* */
+						System.out.println(memo);
 						if (memo.length() > 0) {
 							BufferedWriter out = new BufferedWriter(new FileWriter(
 									"MemoData/" + calYear + ((calMonth + 1) < 10 ? "0" : "") + (calMonth + 1)
@@ -421,6 +449,8 @@ public class Mypage extends JFrame {
 			});
 			memoSubPanel.add(Mbtn[0]);
 			memoSubPanel.add(Mbtn[1]);
+			memoSubPanel.add(Tbtn[0]);
+			memoSubPanel.add(Tbtn[1]);
 			memoBottomPanel.add(saveBut);
 			memoBottomPanel.add(delBut);
 			memoBottomPanel.add(clearBut);
@@ -431,9 +461,9 @@ public class Mypage extends JFrame {
 			memoBottomPanel.setPreferredSize(memoBottomPanelSize);
 
 			memoPanel.setLayout(new BorderLayout());
-			//memoPanel.add(selectedDate, BorderLayout.NORTH);
+			memoPanel.add(selectedDate, BorderLayout.NORTH);
 			memoPanel.add(memoAreaSP, BorderLayout.CENTER);
-			memoPanel.add(memoSubPanel, BorderLayout.NORTH);
+			//memoPanel.add(memoSubPanel, BorderLayout.NORTH);
 
 			memoPanel.add(memoBottomPanel, BorderLayout.SOUTH);
 
