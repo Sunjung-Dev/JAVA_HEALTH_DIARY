@@ -47,6 +47,7 @@ public class Main extends JFrame{
 		board.addActionListener(new boardBtnListener());
 		menu.add(board);
 		menu.add(mypage);
+		// mypage.addActionListener(new MypageBtnListener());
 		north.add(title);
 		north.add(menu);
 		c.add(north, BorderLayout.NORTH);
@@ -123,9 +124,21 @@ public class Main extends JFrame{
 			}
 		}
 	}
+	// static class MypageBtnListener implements ActionListener{
+	// 	public void actionPerformed(ActionEvent e){
+	// 		if (mypage.equals(e.getSource())){
+	// 			center.removeAll();
+	// 			main_page(Mypage.Layout());
+	// 		}
+	// 	}
+	// }
 	public static void main(String[] args) {
 		new Main();
 
 	}
+
+    public static JPanel center() {
+        return null;
+    }
 
 }

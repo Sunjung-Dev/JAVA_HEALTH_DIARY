@@ -25,8 +25,10 @@ public class Database {
 					String gender=res.getString(4);
 	
 				} 
+				con.close();
 				return "true";
 			}
+			
 		} catch(SQLException e ) {
 			System.out.println( e);
 		} 
@@ -62,7 +64,9 @@ public class Database {
 					// data = 
 					boardData.add(boardMap);
 				} 
+				con.close();
 			}
+			
 		} catch(SQLException e ) {
 			System.out.println( e);
 		} 
@@ -74,6 +78,7 @@ public class Database {
 		try{
 			pstmt = con.prepareStatement(sql);
 			pstmt.executeUpdate();
+			con.close();
 		} catch(SQLException e ) {
 			System.out.println(e);
 		} 
