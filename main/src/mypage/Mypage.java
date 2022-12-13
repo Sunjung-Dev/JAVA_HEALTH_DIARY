@@ -17,65 +17,86 @@ public class Mypage extends JFrame {
 	JButton mypageBtn = new JButton("마이페이지");
 	JRadioButton[] Rbtn = new JRadioButton[2];
 	JButton newpostBtn = new JButton("식단&운동 일지 작성");
+	JFrame mainFrame = new JFrame("Mypage");
+	JPanel north = new JPanel();
+	JPanel center = new JPanel();
+	JPanel south = new JPanel();
+
+	JPanel frameSubPanelWest = new JPanel();
+	JPanel frameSubPanelEast = new JPanel();
+	JPanel frameBottomPanel = new JPanel();
+
+	Boolean choice;
 
 	public Mypage() {
 
-		JPanel north = new JPanel();
-		JPanel center = new JPanel();
-		JPanel south = new JPanel();
-		north.setBackground(Color.GRAY);
-
-		setTitle("Mypage");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Container c = getContentPane();
-		setSize(500, 700);
+		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainFrame.setSize(1000, 700);
+		mainFrame.setVisible(true);
 
 		Rbtn[0] = new JRadioButton("날짜형");
 		Rbtn[1] = new JRadioButton("목록형");
 		MyItemListener lShow = new MyItemListener();
 		Rbtn[1].addItemListener(lShow);
 
+		north.setBackground(Color.GRAY);
 
 		show.add(Rbtn[0]);
 		show.add(Rbtn[1]);
 
-		//c.add(new Banner(), BorderLayout.NORTH);
-		//c.add(new MyPanel(),BorderLayout.SOUTH);
+		// c.add(new Banner(), BorderLayout.NORTH);
+		// c.add(new MyPanel(),BorderLayout.SOUTH);
 		north.add(loginBtn);
 		north.add(postBtn);
 		north.add(mypageBtn);
 		center.add(Rbtn[0]);
 		center.add(Rbtn[1]);
 		south.add(newpostBtn);
-		c.add(north, BorderLayout.NORTH);
-		c.add(center, BorderLayout.CENTER);
-		c.add(south, BorderLayout.SOUTH);
-		setVisible(true);
+		mainFrame.add(north, BorderLayout.NORTH);
+		mainFrame.add(center, BorderLayout.CENTER);
+		mainFrame.add(south, BorderLayout.SOUTH);
 
-	
 		Rbtn[0].addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(Rbtn[0].isSelected())
+				if (Rbtn[0].isSelected())
 					new MemoCalendar();
+				frameSubPanelWest.setVisible(true);
+				frameSubPanelEast.setVisible(true);
+				frameBottomPanel.setVisible(true);
+			}
+		});
+
+		Rbtn[1].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (Rbtn[1].isSelected()) {
+					frameSubPanelWest.setVisible(false);
+					frameSubPanelEast.setVisible(false);
+					frameBottomPanel.setVisible(false);
+
+				}
+
 			}
 		});
 		newpostBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new MemoCalendar();
+				frameSubPanelWest.setVisible(true);
+				frameSubPanelEast.setVisible(true);
+				frameBottomPanel.setVisible(true);
 			}
 		});
-	
-		
+		mainFrame.setVisible(true);
+
 	}
-	
-	class MyItemListener implements ItemListener{
+
+	class MyItemListener implements ItemListener {
 
 		public void itemStateChanged(ItemEvent e) {
-			if(Rbtn[1].isSelected()){
-				//select * from dept01 where (공개여부)=true;
-				
-			}	
-			
+			if (Rbtn[1].isSelected()) {
+				// select * from dept01 where (공개여부)=true;
+
+			}
+
 		}
 
 	}
@@ -155,7 +176,6 @@ public class Mypage extends JFrame {
 
 	class MemoCalendar extends CalendarDataManager { // CalendarDataManager�� GUI + �޸��� + �ð�
 		// â ������ҿ� ��ġ��
-		JFrame mainFrame;
 		ImageIcon icon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
 
 		JPanel calOpPanel;
@@ -186,8 +206,6 @@ public class Mypage extends JFrame {
 		JButton clearBut;
 		ButtonGroup upload = new ButtonGroup();
 
-
-		JPanel frameBottomPanel;
 		JLabel bottomInfo = new JLabel("Welcome to Memo Calendar!");
 		// ���, �޼���
 		final String WEEK_DAY_NAME[] = { "SUN", "MON", "TUE", "WED", "THR", "FRI", "SAT" };
@@ -202,9 +220,8 @@ public class Mypage extends JFrame {
 
 		public MemoCalendar() { // ������� ������ ���ĵǾ� ����. �� �ǳ� ���̿� ���ٷ� ����
 
-			mainFrame = new JFrame(title);
 			mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			mainFrame.setSize(700, 400);
+			// mainFrame.setSize(700, 400);
 			mainFrame.setLocationRelativeTo(null);
 			mainFrame.setResizable(false);
 			mainFrame.setIconImage(icon.getImage());
@@ -318,16 +335,43 @@ public class Mypage extends JFrame {
 					SwingConstants.LEFT);
 			selectedDate.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
 
+			ButtonGroup Rmemo = new ButtonGroup();
+			JRadioButton[] Mbtn = new JRadioButton[2];
+			Mbtn[0] = new JRadioButton("Public");
+			Mbtn[1] = new JRadioButton("Private");
+			Rmemo.add(Mbtn[0]);
+			Rmemo.add(Mbtn[1]);
+			Mbtn[0].addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if (Mbtn[0].isSelected()){
+						choice = true;
+						System.out.println(choice);
+
+					}
+				}
+			});
+			Mbtn[1].addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if (Mbtn[1].isSelected()){
+						choice = false;
+						System.out.println(choice);
+					}
+	
+				}
+			});
+
 			memoPanel = new JPanel();
 			memoPanel.setBorder(BorderFactory.createTitledBorder("Memo"));
 			memoArea = new JTextArea();
 			memoArea.setLineWrap(true);
 			memoArea.setWrapStyleWord(true);
+			// memoArea.setPreferredSize(new Dimension( 50, 100));
 			memoAreaSP = new JScrollPane(memoArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 			readMemo();
 
 			memoSubPanel = new JPanel();
+			JPanel memoBottomPanel = new JPanel();
 			saveBut = new JButton("Save");
 			saveBut.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
@@ -375,25 +419,34 @@ public class Mypage extends JFrame {
 					bottomInfo.setText(ClrButMsg1);
 				}
 			});
-			memoSubPanel.add(saveBut);
-			memoSubPanel.add(delBut);
-			memoSubPanel.add(clearBut);
+			memoSubPanel.add(Mbtn[0]);
+			memoSubPanel.add(Mbtn[1]);
+			memoBottomPanel.add(saveBut);
+			memoBottomPanel.add(delBut);
+			memoBottomPanel.add(clearBut);
+
+
+			Dimension memoBottomPanelSize = memoBottomPanel.getPreferredSize();
+			memoBottomPanelSize.height = 50;
+			memoBottomPanel.setPreferredSize(memoBottomPanelSize);
+
 			memoPanel.setLayout(new BorderLayout());
-			memoPanel.add(selectedDate, BorderLayout.NORTH);
+			//memoPanel.add(selectedDate, BorderLayout.NORTH);
 			memoPanel.add(memoAreaSP, BorderLayout.CENTER);
-			memoPanel.add(memoSubPanel, BorderLayout.SOUTH);
+			memoPanel.add(memoSubPanel, BorderLayout.NORTH);
+
+			memoPanel.add(memoBottomPanel, BorderLayout.SOUTH);
 
 			// calOpPanel, calPanel�� frameSubPanelWest�� ��ġ
-			JPanel frameSubPanelWest = new JPanel();
 			Dimension calOpPanelSize = calOpPanel.getPreferredSize();
 			calOpPanelSize.height = 90;
+			calOpPanelSize.width = 90;
 			calOpPanel.setPreferredSize(calOpPanelSize);
 			frameSubPanelWest.setLayout(new BorderLayout());
 			frameSubPanelWest.add(calOpPanel, BorderLayout.NORTH);
 			frameSubPanelWest.add(calPanel, BorderLayout.CENTER);
 
 			// infoPanel, memoPanel�� frameSubPanelEast�� ��ġ
-			JPanel frameSubPanelEast = new JPanel();
 			Dimension infoPanelSize = infoPanel.getPreferredSize();
 			infoPanelSize.height = 65;
 			infoPanel.setPreferredSize(infoPanelSize);
@@ -402,17 +455,24 @@ public class Mypage extends JFrame {
 			frameSubPanelEast.add(memoPanel, BorderLayout.CENTER);
 
 			Dimension frameSubPanelWestSize = frameSubPanelWest.getPreferredSize();
-			frameSubPanelWestSize.width = 410;
+			frameSubPanelWestSize.width = 610;
 			frameSubPanelWest.setPreferredSize(frameSubPanelWestSize);
 
 			// �ڴʰ� �߰��� bottom Panel..
-			frameBottomPanel = new JPanel();
+			Dimension frameBottomPanelSize = frameBottomPanel.getPreferredSize();
+			frameBottomPanelSize.height = 65;
+			frameBottomPanel.setPreferredSize(frameBottomPanelSize);
 			frameBottomPanel.add(bottomInfo);
 
 			// frame�� ���� ��ġ
 			mainFrame.setLayout(new BorderLayout());
+			mainFrame.add(north, BorderLayout.NORTH);
+			// north.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
+			// center.setBorder(BorderFactory.createEmptyBorder(10,0,10,0));
 			mainFrame.add(frameSubPanelWest, BorderLayout.WEST);
+			mainFrame.add(center, BorderLayout.CENTER);
 			mainFrame.add(frameSubPanelEast, BorderLayout.CENTER);
+			mainFrame.add(south, BorderLayout.SOUTH);
 			mainFrame.add(frameBottomPanel, BorderLayout.SOUTH);
 			mainFrame.setVisible(true);
 
