@@ -4,6 +4,8 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
 
 public class Main extends JFrame{
 	static JButton register = new JButton("회원가입");
@@ -28,33 +30,46 @@ public class Main extends JFrame{
 	static JLabel password_l = new JLabel("비밀번호: ");
 	static JPasswordField password = new JPasswordField(20);
 	
-	static JLabel title = new JLabel("Healthy life!", JLabel.CENTER);
+	// static JLabel title = new JLabel("Healthy life!", JLabel.CENTER);
 	static JRadioButton gender_bt = new JRadioButton("female");
 	static JRadioButton gender_bt2 = new JRadioButton("male");
 	static JFrame frame= new JFrame();
 	static Container c = frame.getContentPane();
 	// Container c = getContentPane();
-
+	static Image background = new ImageIcon(Main.class.getResource("img/8225.jpg")).getImage();
+	static JLabel piclabel = new JLabel();
 	static String login_completed_name ="";
 
 	public static void main_page(JPanel page){
-		north.setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100));
+		north.setBorder(BorderFactory.createEmptyBorder(10, 100, 100, 100));
+		north.setBounds(0, 230, 500, 100);
 		south.setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100));
 		page.setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100));
 		c.setLayout(new BorderLayout(30, 20));
+		
+
 		menu.add(login);
 		login.addActionListener(new loginBtnListener());
 		board.addActionListener(new boardBtnListener());
 		menu.add(board);
 		menu.add(mypage);
 		// mypage.addActionListener(new MypageBtnListener());
-		north.add(title);
+		
+		Image image = background.getScaledInstance(1500, 300, Image.SCALE_SMOOTH);
+		ImageIcon ximage = new ImageIcon(image);
+		piclabel.setIcon(ximage);
+		north.add(piclabel);
+		// north.add(title);
 		north.add(menu);
+		
+		
 		c.add(north, BorderLayout.NORTH);
 		c.add(page, BorderLayout.CENTER);
 		c.add(south, BorderLayout.SOUTH);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setVisible(true);
+		
+		// c.add(north, BorderLayout.NORTH);
 	}
 
 	static public JPanel login(){
@@ -73,13 +88,16 @@ public class Main extends JFrame{
 	}
 
 	static public JPanel login_complete(){
-		JLabel login_message = new JLabel("로그인 되었습니다!");
+		JLabel login_message = new JLabel(login_completed_name +"님 로그인 되었습니다!");
 		center.add(login_message);
 		return center;
 	}
 	
 	public Main() {
 		main_page(login());
+	}
+	public void paint(Graphics g){
+		g.drawImage(background, 0, 0, null);
 	}
 	
 	static class LoginListener implements ActionListener {
@@ -103,7 +121,7 @@ public class Main extends JFrame{
 				sql = sql + "VALUES ('" + name_input + "','" + email_input + "','" + gender + "')";
 				Database.insert(sql, con);
 				main_page(login_complete());
-			}
+			} 
 		}
 	}
 
@@ -121,7 +139,7 @@ public class Main extends JFrame{
 			if (login.equals(e.getSource())){
 				center.removeAll();
 				main_page(Login.Layout());
-			}
+			} 
 		}
 	}
 	// static class MypageBtnListener implements ActionListener{
