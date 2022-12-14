@@ -19,6 +19,8 @@ public class Mypage extends JFrame {
 	JButton newpostBtn = new JButton("식단&운동 일지 작성");
 	JFrame mainFrame = new JFrame("Mypage");
 	JPanel north = new JPanel();
+	JPanel menu = new JPanel();
+	JPanel undermenu = new JPanel();
 	JPanel center = new JPanel();
 	JPanel south = new JPanel();
 
@@ -27,34 +29,40 @@ public class Mypage extends JFrame {
 	JPanel frameBottomPanel = new JPanel();
 
 	Boolean choice;
+	Boolean type;
 
 	public Mypage() {
 
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setSize(1000, 700);
-		mainFrame.setVisible(true);
+		mainFrame.setLayout(new BorderLayout());
 
 		Rbtn[0] = new JRadioButton("날짜형");
 		Rbtn[1] = new JRadioButton("목록형");
 		MyItemListener lShow = new MyItemListener();
 		Rbtn[1].addItemListener(lShow);
 
-		north.setBackground(Color.GRAY);
+		menu.setBackground(Color.GRAY);
 
 		show.add(Rbtn[0]);
 		show.add(Rbtn[1]);
 
-		// c.add(new Banner(), BorderLayout.NORTH);
-		// c.add(new MyPanel(),BorderLayout.SOUTH);
-		north.add(loginBtn);
-		north.add(postBtn);
-		north.add(mypageBtn);
-		center.add(Rbtn[0]);
-		center.add(Rbtn[1]);
+		menu.setPreferredSize(new Dimension( 1000,55));
+		Dimension menuSize = north.getPreferredSize();
+		menuSize.height = 80;
+		north.setPreferredSize(menuSize);
+		menu.add(loginBtn);
+		menu.add(postBtn);
+		menu.add(mypageBtn);
+		undermenu.add(Rbtn[0]);
+		undermenu.add(Rbtn[1]);
+		north.setLayout(new BorderLayout());
+		north.add(menu, BorderLayout.NORTH);
+		north.add(undermenu, BorderLayout.CENTER);
 		south.add(newpostBtn);
 		mainFrame.add(north, BorderLayout.NORTH);
-		mainFrame.add(center, BorderLayout.CENTER);
 		mainFrame.add(south, BorderLayout.SOUTH);
+		mainFrame.setVisible(true);
 
 		Rbtn[0].addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -85,7 +93,6 @@ public class Mypage extends JFrame {
 				frameBottomPanel.setVisible(true);
 			}
 		});
-		mainFrame.setVisible(true);
 
 	}
 
@@ -209,7 +216,7 @@ public class Mypage extends JFrame {
 		JLabel bottomInfo = new JLabel("Welcome to Memo Calendar!");
 		// ���, �޼���
 		final String WEEK_DAY_NAME[] = { "SUN", "MON", "TUE", "WED", "THR", "FRI", "SAT" };
-		final String title = "�޸� �޷� ver 1.0";
+		
 		final String SaveButMsg1 = "�� MemoData������ �����Ͽ����ϴ�.";
 		final String SaveButMsg2 = "�޸� ���� �ۼ��� �ּ���.";
 		final String SaveButMsg3 = "<html><font color=red>ERROR : ���� ���� ����</html>";
@@ -220,8 +227,6 @@ public class Mypage extends JFrame {
 
 		public MemoCalendar() { // ������� ������ ���ĵǾ� ����. �� �ǳ� ���̿� ���ٷ� ����
 
-			mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			// mainFrame.setSize(700, 400);
 			mainFrame.setLocationRelativeTo(null);
 			mainFrame.setResizable(false);
 			mainFrame.setIconImage(icon.getImage());
@@ -333,20 +338,25 @@ public class Mypage extends JFrame {
 			selectedDate = new JLabel("<Html><font size=3>" + (today.get(Calendar.MONTH) + 1) + "/"
 					+ today.get(Calendar.DAY_OF_MONTH) + "/" + today.get(Calendar.YEAR) + "&nbsp;(Today)</html>",
 					SwingConstants.LEFT);
+
+			String date = new String((today.get(Calendar.MONTH) + 1) + "/"
+			+ today.get(Calendar.DAY_OF_MONTH) + "/" + today.get(Calendar.YEAR));
+
 			selectedDate.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
 
-			ButtonGroup Rmemo = new ButtonGroup();
+
+			ButtonGroup Mpublic = new ButtonGroup();
 			JRadioButton[] Mbtn = new JRadioButton[2];
 			Mbtn[0] = new JRadioButton("Public");
 			Mbtn[1] = new JRadioButton("Private");
-			Rmemo.add(Mbtn[0]);
-			Rmemo.add(Mbtn[1]);
+			Mpublic.add(Mbtn[0]);
+			Mpublic.add(Mbtn[1]);
 			Mbtn[0].addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (Mbtn[0].isSelected()){
 						choice = true;
-						System.out.println(choice);
-
+						Mbtn[0].setForeground(Color.RED);
+						Mbtn[1].setForeground(Color.BLACK);
 					}
 				}
 			});
@@ -354,7 +364,34 @@ public class Mypage extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					if (Mbtn[1].isSelected()){
 						choice = false;
-						System.out.println(choice);
+						Mbtn[0].setForeground(Color.BLACK);
+						Mbtn[1].setForeground(Color.RED);
+					}
+	
+				}
+			});
+
+			ButtonGroup Mtype = new ButtonGroup();
+			JRadioButton[] Tbtn = new JRadioButton[2];
+			Tbtn[0] = new JRadioButton("Weight");
+			Tbtn[1] = new JRadioButton("Diet");
+			Mtype.add(Tbtn[0]);
+			Mtype.add(Tbtn[1]);
+			Tbtn[0].addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if (Tbtn[0].isSelected()){
+						type = true;
+						Tbtn[0].setForeground(Color.BLUE);
+						Tbtn[1].setForeground(Color.BLACK);
+					}
+				}
+			});
+			Tbtn[1].addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if (Tbtn[1].isSelected()){
+						type = false;
+						Tbtn[0].setForeground(Color.BLACK);
+						Tbtn[1].setForeground(Color.BLUE);
 					}
 	
 				}
@@ -365,7 +402,6 @@ public class Mypage extends JFrame {
 			memoArea = new JTextArea();
 			memoArea.setLineWrap(true);
 			memoArea.setWrapStyleWord(true);
-			// memoArea.setPreferredSize(new Dimension( 50, 100));
 			memoAreaSP = new JScrollPane(memoArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 			readMemo();
@@ -421,6 +457,8 @@ public class Mypage extends JFrame {
 			});
 			memoSubPanel.add(Mbtn[0]);
 			memoSubPanel.add(Mbtn[1]);
+			memoSubPanel.add(Tbtn[0]);
+			memoSubPanel.add(Tbtn[1]);
 			memoBottomPanel.add(saveBut);
 			memoBottomPanel.add(delBut);
 			memoBottomPanel.add(clearBut);
@@ -431,10 +469,18 @@ public class Mypage extends JFrame {
 			memoBottomPanel.setPreferredSize(memoBottomPanelSize);
 
 			memoPanel.setLayout(new BorderLayout());
-			//memoPanel.add(selectedDate, BorderLayout.NORTH);
-			memoPanel.add(memoAreaSP, BorderLayout.CENTER);
-			memoPanel.add(memoSubPanel, BorderLayout.NORTH);
 
+			JPanel memoMenu = new JPanel();
+			Dimension MmenuSize = memoMenu.getPreferredSize();
+			MmenuSize.height = 50;
+			memoMenu.setPreferredSize(MmenuSize);
+
+			memoMenu.setLayout(new BorderLayout());
+			memoMenu.add(selectedDate, BorderLayout.NORTH);
+			memoMenu.add(memoSubPanel,  BorderLayout.CENTER);
+
+			memoPanel.add(memoMenu, BorderLayout.NORTH);
+			memoPanel.add(memoAreaSP, BorderLayout.CENTER);
 			memoPanel.add(memoBottomPanel, BorderLayout.SOUTH);
 
 			// calOpPanel, calPanel�� frameSubPanelWest�� ��ġ
@@ -465,7 +511,7 @@ public class Mypage extends JFrame {
 			frameBottomPanel.add(bottomInfo);
 
 			// frame�� ���� ��ġ
-			mainFrame.setLayout(new BorderLayout());
+			//mainFrame.setLayout(new BorderLayout());
 			mainFrame.add(north, BorderLayout.NORTH);
 			// north.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
 			// center.setBorder(BorderFactory.createEmptyBorder(10,0,10,0));
@@ -604,6 +650,8 @@ public class Mypage extends JFrame {
 
 				selectedDate.setText("<Html><font size=3>" + (calMonth + 1) + "/" + calDayOfMon + "/" + calYear
 						+ "&nbsp;(" + dDayString + ")</html>");
+
+				String date = new String((calMonth + 1) + "/" + calDayOfMon + "/" + calYear);
 
 				readMemo();
 			}
