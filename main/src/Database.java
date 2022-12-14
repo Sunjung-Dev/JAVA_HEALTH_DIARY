@@ -9,7 +9,7 @@ public class Database {
 	static String name;
 	static List boardData = new ArrayList<Object>();
 	static String[][] boardDatas;
-
+	static String[][] data = new String[100][7];
 
 	public static String select(String sql, Connection con){
 		PreparedStatement pstmt = null;
@@ -35,17 +35,40 @@ public class Database {
 		return "";
 	}
 
-	public static List selectBoardTable(String sql, Connection con){
+	public static int selectUserID(String sql, Connection con){
 		PreparedStatement pstmt = null;
-
+		int userid = 0;
 		try{
 			pstmt = con.prepareStatement(sql);
 			ResultSet res = pstmt.executeQuery();
 			if (res.next()){
 				while(res.next())
 				{
+					userid = res.getInt(2);
+	
+				} 
+				con.close();
+			}
+			
+		} catch(SQLException e ) {
+			System.out.println( e);
+		} 
+		return userid;
+	}
+
+
+	public static String[][] selectBoardTable(String sql, Connection con){
+		PreparedStatement pstmt = null;
+
+		try{
+			pstmt = con.prepareStatement(sql);
+			int i = 0;
+			ResultSet res = pstmt.executeQuery();
+			if (res.next()){
+				while(res.next())
+				{
 					HashMap<String, String> boardMap = new HashMap<>();
-					String [] data;
+					
 
 					Integer board_num = res.getInt(1);
 					String text_title = res.getString(2);
@@ -62,7 +85,16 @@ public class Database {
 					boardMap.put("user_id", user_id.toString());
 					boardMap.put("type", type);
 					// data = 
-					boardData.add(boardMap);
+					
+					data[i][0] = board_num.toString();
+					data[i][1] = text_title.toString();
+					data[i][2] = text.toString();
+					data[i][3] = datetime.toString();
+					data[i][4] = isOk.toString();
+					data[i][5] = user_id.toString();
+					data[i][6] = type.toString();
+					i += 1;
+					
 				} 
 				con.close();
 			}
@@ -70,8 +102,9 @@ public class Database {
 		} catch(SQLException e ) {
 			System.out.println( e);
 		} 
-		return boardData;
+		return data;
 	}
+	
 
 	public static void insert(String sql, Connection con){
 		PreparedStatement pstmt = null;

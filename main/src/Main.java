@@ -53,7 +53,7 @@ public class Main extends JFrame{
 		board.addActionListener(new boardBtnListener());
 		menu.add(board);
 		menu.add(mypage);
-		// mypage.addActionListener(new MypageBtnListener());
+		mypage.addActionListener(new MypageBtnListener());
 		
 		Image image = background.getScaledInstance(1500, 300, Image.SCALE_SMOOTH);
 		ImageIcon ximage = new ImageIcon(image);
@@ -142,14 +142,14 @@ public class Main extends JFrame{
 			} 
 		}
 	}
-	// static class MypageBtnListener implements ActionListener{
-	// 	public void actionPerformed(ActionEvent e){
-	// 		if (mypage.equals(e.getSource())){
-	// 			center.removeAll();
-	// 			main_page(Mypage.Layout());
-	// 		}
-	// 	}
-	// }
+	static class MypageBtnListener implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			if (mypage.equals(e.getSource())){
+				center.removeAll();
+				main_page(Mypage.Layout());
+			}
+		}
+	}
 	public static void main(String[] args) {
 		new Main();
 

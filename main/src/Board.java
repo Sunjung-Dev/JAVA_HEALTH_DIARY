@@ -56,15 +56,16 @@ public class Board extends JFrame implements MouseListener{
 		Connection con = Database.makeConnection();
 		String sql = "SELECT * from board WHERE type='" + type + "'";
 		System.out.println(sql);
-		List weightdietData = new ArrayList<Object>();
-		weightdietData = Database.selectBoardTable(sql, con);
-		System.out.println(weightdietData);
+		String[][] weightdietData = Database.selectBoardTable(sql, con);
+		System.out.println(weightdietData[0][1]);
 		Main.center.removeAll();
 		String header[] = {"board_num", "text_title", "text", "datetime", "isOk", "user_id", "type"};
 		String contentes[][] = {
 			{"1", "hi", "sdf", "123", "df", "123", "32"},
 			{"1", "jhi", "123", "", "1234", "12345", "12345"}
 		};
+		contentes = weightdietData;
+		
 		table = new JTable(contentes, header);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		// table.addMouseListener(this);
@@ -105,9 +106,9 @@ public class Board extends JFrame implements MouseListener{
 			String selectedType = "";
 			if (select_btn.equals(e.getSource())){
 				if (weight.isSelected()){
-					selectedType = new String("weight");
+					selectedType = new String("Weight");
 				} else {
-					selectedType = new String("diet");
+					selectedType = new String("Diet");
 				}
 				System.out.println(selectedType);
 				AddWeightDiet(selectedType);
