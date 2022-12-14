@@ -1,4 +1,3 @@
-
 import java.awt.*;
 import java.io.*;
 import java.net.http.WebSocket.Listener;
@@ -35,8 +34,6 @@ public class Mypage extends JFrame {
 	String memo;
 	int userId;
 
-
-
 	public Mypage() {
 
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,13 +50,18 @@ public class Mypage extends JFrame {
 		show.add(Rbtn[0]);
 		show.add(Rbtn[1]);
 
-		// c.add(new Banner(), BorderLayout.NORTH);
-		// c.add(new MyPanel(),BorderLayout.SOUTH);
-		north.add(loginBtn);
-		north.add(postBtn);
-		north.add(mypageBtn);
-		center.add(Rbtn[0]);
-		center.add(Rbtn[1]);
+		menu.setPreferredSize(new Dimension( 1000,55));
+		Dimension menuSize = north.getPreferredSize();
+		menuSize.height = 80;
+		north.setPreferredSize(menuSize);
+		// menu.add(loginBtn);
+		// menu.add(postBtn);
+		// menu.add(mypageBtn);
+		undermenu.add(Rbtn[0]);
+		undermenu.add(Rbtn[1]);
+		north.setLayout(new BorderLayout());
+		// north.add(menu, BorderLayout.NORTH);
+		north.add(undermenu, BorderLayout.CENTER);
 		south.add(newpostBtn);
 		mainFrame.add(north, BorderLayout.NORTH);
 		mainFrame.add(south, BorderLayout.SOUTH);
@@ -82,10 +84,10 @@ public class Mypage extends JFrame {
 					frameSubPanelEast.setVisible(false);
 					frameBottomPanel.setVisible(false);
 
+					
 					Connection con = Database.makeConnection();
 					String sql = "SELECT * FROM board where user_id='" + userId +"'";
 					String Mydata[][] = Database.selectBoardTable(sql, con);
-
 					String header[] = {"board_num", "text_title", "text", "datetime", "isOk", "user_id", "type"};
 					String contentes[][] = Mydata;
 
@@ -93,8 +95,14 @@ public class Mypage extends JFrame {
 					table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 					JScrollPane scrollpane = new JScrollPane(table);
 					mainFrame.add(scrollpane);
+					
+					
 				}
 
+			}
+
+			private JLabel JLabel(String string) {
+				return null;
 			}
 		});
 		newpostBtn.addActionListener(new ActionListener() {
@@ -105,6 +113,18 @@ public class Mypage extends JFrame {
 				frameBottomPanel.setVisible(true);
 			}
 		});
+
+	}
+
+	class MyItemListener implements ItemListener {
+
+		public void itemStateChanged(ItemEvent e) {
+			if (Rbtn[1].isSelected()) {
+				// select * from dept01 where (공개여부)=true;
+
+			}
+
+		}
 
 	}
 
@@ -339,6 +359,8 @@ public class Mypage extends JFrame {
 					+ today.get(Calendar.DAY_OF_MONTH) + "/" + today.get(Calendar.YEAR) + "&nbsp;(Today)</html>",
 					SwingConstants.LEFT);
 
+			String date = new String((today.get(Calendar.MONTH) + 1) + "/"
+			+ today.get(Calendar.DAY_OF_MONTH) + "/" + today.get(Calendar.YEAR));
 
 			selectedDate.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
 
@@ -407,18 +429,17 @@ public class Mypage extends JFrame {
 			memoSubPanel = new JPanel();
 			JPanel memoBottomPanel = new JPanel();
 			saveBut = new JButton("Save");
-			saveBut.addActionListener((java.awt.event.ActionListener) new ActionListener() {
+			saveBut.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					try {
 						Connection con = Database.makeConnection();
 						String sql = "SELECT * from user WHERE user_name='" + Main.login_completed_name + "'";
 						userId = Database.selectUserID(sql, con);
-
 						File f = new File("MemoData");
 						if (!f.isDirectory())
 							f.mkdir();
 
-						memo = memoArea.getText();
+						String memo = memoArea.getText();
 						if (memo.length() > 0) {
 							BufferedWriter out = new BufferedWriter(new FileWriter(
 									"MemoData/" + calYear + ((calMonth + 1) < 10 ? "0" : "") + (calMonth + 1)
@@ -430,10 +451,8 @@ public class Mypage extends JFrame {
 									+ (calDayOfMon < 10 ? "0" : "") + calDayOfMon + ".txt" + SaveButMsg1);
 						} else
 							bottomInfo.setText(SaveButMsg2);
-						
 						sql = "INSERT INTO board(text_title, text, date, public, user_id, type) VALUES (' ', '" + memo + "','" + date + "', "+ choice +", "+userId+",'"+type+"')";
 						Database.insert(sql, con);
-						
 					} catch (IOException e) {
 						bottomInfo.setText(SaveButMsg3);
 					}
@@ -636,6 +655,7 @@ public class Mypage extends JFrame {
 						}
 					}
 				}
+
 				if (!(k == 0 && l == 0))
 					calDayOfMon = calDates[k][l]; // today��ư�� ���������� �� actionPerformed�Լ��� ����Ǳ� ������
 													// ���� �κ�
@@ -656,7 +676,6 @@ public class Mypage extends JFrame {
 				selectedDate.setText("<Html><font size=3>" + (calMonth + 1) + "/" + calDayOfMon + "/" + calYear
 						+ "&nbsp;(" + dDayString + ")</html>");
 
-				// date = new String((calMonth + 1) + "/" + calDayOfMon + "/" + calYear);
 				date = new String(calYear +"-" + calDayOfMon + "-" + (calMonth + 1));
 
 				readMemo();
