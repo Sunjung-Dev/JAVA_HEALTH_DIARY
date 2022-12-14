@@ -143,10 +143,25 @@ public class Main extends JFrame{
 		}
 	}
 	static class MypageBtnListener implements ActionListener{
+		static JLabel login_info = new JLabel("아직 로그인 되지 않았습니다. 로그인 먼저 시도해주세요. \n 위의 메뉴 중 로그인 메뉴를 선택해주세요!");
+		static Image loginIcon = new ImageIcon(Main.class.getResource("img/login.png")).getImage();
+		static JLabel loginLabel = new JLabel();
 		public void actionPerformed(ActionEvent e){
 			if (mypage.equals(e.getSource())){
-				center.removeAll();
-				main_page(Mypage.Layout());
+				if (login_completed_name == ""){
+					center.removeAll();
+					Image image = loginIcon.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+					ImageIcon ximage = new ImageIcon(image);
+					login_info.setBackground(Color.YELLOW);
+					login_info.setOpaque(true);
+					loginLabel.setIcon(ximage);
+					center.add(loginLabel);
+					center.add(login_info);
+				} else {
+					center.removeAll();
+					new Mypage();
+				}
+				
 			}
 		}
 	}
