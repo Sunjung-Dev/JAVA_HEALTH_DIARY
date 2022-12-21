@@ -37,7 +37,7 @@ public class Database {
 
 	public static int selectUserID(String sql, Connection con){
 		PreparedStatement pstmt = null;
-		int userid = 0;
+		int userid = 1;
 		try{
 			pstmt = con.prepareStatement(sql);
 			ResultSet res = pstmt.executeQuery();
@@ -45,6 +45,7 @@ public class Database {
 				while(res.next())
 				{
 					userid = res.getInt(2);
+					return userid;
 	
 				} 
 				con.close();
@@ -84,9 +85,9 @@ public class Database {
 					boardMap.put("isOk", isOk.toString());
 					boardMap.put("user_id", user_id.toString());
 					boardMap.put("type", type);
-					// data = 
 					
 					data[i][0] = board_num.toString();
+					System.out.println(board_num + text_title + text + datetime + isOk+ user_id+ type);
 					data[i][1] = text_title.toString();
 					data[i][2] = text.toString();
 					data[i][3] = datetime.toString();

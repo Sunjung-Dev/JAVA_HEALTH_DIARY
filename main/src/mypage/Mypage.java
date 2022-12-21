@@ -36,7 +36,7 @@ public class Mypage extends JFrame {
 
 	public Mypage() {
 
-		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		mainFrame.setSize(1000, 700);
 		mainFrame.setLayout(new BorderLayout());
 
@@ -86,6 +86,10 @@ public class Mypage extends JFrame {
 
 					
 					Connection con = Database.makeConnection();
+					String sql1 = "SELECT user_num from user WHERE user_name='" + Main.login_completed_name + "'";
+					System.out.println(sql1);
+					userId = Database.selectUserID(sql1, con);
+					System.out.println(userId);
 					String sql = "SELECT * FROM board where user_id='" + userId +"'";
 					String Mydata[][] = Database.selectBoardTable(sql, con);
 					String header[] = {"board_num", "text_title", "text", "datetime", "isOk", "user_id", "type"};
@@ -359,8 +363,14 @@ public class Mypage extends JFrame {
 					+ today.get(Calendar.DAY_OF_MONTH) + "/" + today.get(Calendar.YEAR) + "&nbsp;(Today)</html>",
 					SwingConstants.LEFT);
 
-			String date = new String((today.get(Calendar.MONTH) + 1) + "/"
-			+ today.get(Calendar.DAY_OF_MONTH) + "/" + today.get(Calendar.YEAR));
+					// today.get(Calendar.DAY_OF_MONTH) 
+			// String date = new String((today.get(Calendar.MONTH) + 1) + "/"
+			// + today.get(Calendar.DAY_OF_MONTH) + "/" + today.get(Calendar.YEAR));
+
+			String date = new String((today.get(Calendar.YEAR) + 1) + "-"
+			+ today.get(Calendar.MONTH) + "-" + today.get(Calendar.DAY_OF_MONTH));
+
+			// date = new String(today.get(Calendar.YEAR) + "-" + today.get(Calendar.MONTH) + "-" + today.get(Calendar.DAY_OF_MONTH) );
 
 			selectedDate.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
 
@@ -433,8 +443,9 @@ public class Mypage extends JFrame {
 				public void actionPerformed(ActionEvent arg0) {
 					try {
 						Connection con = Database.makeConnection();
-						String sql = "SELECT * from user WHERE user_name='" + Main.login_completed_name + "'";
-						userId = Database.selectUserID(sql, con);
+						// String sql = "SELECT * from user WHERE user_name='" + Main.login_completed_name.toString()+ "'";
+						// userId = Database.selectUserID(sql, con);
+						// System.out.println(userId);
 						File f = new File("MemoData");
 						if (!f.isDirectory())
 							f.mkdir();
@@ -451,7 +462,7 @@ public class Mypage extends JFrame {
 									+ (calDayOfMon < 10 ? "0" : "") + calDayOfMon + ".txt" + SaveButMsg1);
 						} else
 							bottomInfo.setText(SaveButMsg2);
-						sql = "INSERT INTO board(text_title, text, date, public, user_id, type) VALUES (' ', '" + memo + "','" + date + "', "+ choice +", "+userId+",'"+type+"')";
+						String sql = "INSERT INTO board(text_title, text, date, public, user_id, type) VALUES (' ', '" + memo + "','" + date + "', "+ choice +", "+userId+",'"+type+"')";
 						Database.insert(sql, con);
 					} catch (IOException e) {
 						bottomInfo.setText(SaveButMsg3);
@@ -676,7 +687,7 @@ public class Mypage extends JFrame {
 				selectedDate.setText("<Html><font size=3>" + (calMonth + 1) + "/" + calDayOfMon + "/" + calYear
 						+ "&nbsp;(" + dDayString + ")</html>");
 
-				date = new String(calYear +"-" + calDayOfMon + "-" + (calMonth + 1));
+				date = new String(calYear +"-" + calDayOfMon + "-" + (dDayString + 1));
 
 				readMemo();
 			}

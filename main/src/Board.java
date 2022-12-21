@@ -54,10 +54,9 @@ public class Board extends JFrame implements MouseListener{
 
 	public static JPanel AddWeightDiet(String type){
 		Connection con = Database.makeConnection();
-		String sql = "SELECT * from board WHERE type='" + type + "'";
+		String sql = "SELECT * from board WHERE type='" + type + "' and public=True";
 		System.out.println(sql);
 		String[][] weightdietData = Database.selectBoardTable(sql, con);
-		System.out.println(weightdietData[0][1]);
 		Main.center.removeAll();
 		String header[] = {"board_num", "text_title", "text", "datetime", "isOk", "user_id", "type"};
 		String contentes[][] = {
@@ -107,7 +106,7 @@ public class Board extends JFrame implements MouseListener{
 			if (select_btn.equals(e.getSource())){
 				if (weight.isSelected()){
 					selectedType = new String("Weight");
-				} else {
+				} if(diet.isSelected()) {
 					selectedType = new String("Diet");
 				}
 				System.out.println(selectedType);
